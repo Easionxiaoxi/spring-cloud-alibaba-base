@@ -1,4 +1,4 @@
-package com.xyz.base.common.component;
+package com.xyz.base.common.component.dubbo;
 
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;

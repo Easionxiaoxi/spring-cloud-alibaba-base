@@ -1,4 +1,4 @@
-package com.xyz.base.common.component;
+package com.xyz.base.common.component.dubbo;
 
 /**
  * 泛化调用接口

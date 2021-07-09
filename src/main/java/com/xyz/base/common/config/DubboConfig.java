@@ -1,7 +1,7 @@
 package com.xyz.base.common.config;
 
 import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
-import com.xyz.base.common.component.DubboRemoteServiceBuilderFactory;
+import com.xyz.base.common.component.dubbo.DubboRemoteServiceBuilderFactory;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.springframework.context.annotation.Bean;
