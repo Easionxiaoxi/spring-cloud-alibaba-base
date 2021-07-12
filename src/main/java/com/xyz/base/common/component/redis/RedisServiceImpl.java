@@ -29,7 +29,7 @@ public class RedisServiceImpl implements RedisService {
     //=============================common============================
 
     /**
-     * 指定缓存失效时间
+     * 指定key缓存失效时间
      *
      * @param key  键
      * @param time 时间(秒)
@@ -100,7 +100,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     /**
-     * 普通缓存获取
+     * 获取多个缓存值
      *
      * @param keyList 键
      * @return List<Object>值
@@ -111,7 +111,7 @@ public class RedisServiceImpl implements RedisService {
 
 
     /**
-     * 普通缓存放入
+     * 单个key-value放入
      *
      * @param key   键
      * @param value 值
@@ -128,7 +128,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     /**
-     * 普通缓存放入
+     * 多个缓存值放入
      *
      * @param map 键
      * @return true成功 false失败
@@ -617,8 +617,7 @@ public class RedisServiceImpl implements RedisService {
      */
     public long lRemove(String key, long count, Object value) {
         try {
-            Long remove = redisTemplate.opsForList().remove(key, count, value);
-            return remove;
+            return redisTemplate.opsForList().remove(key, count, value);
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
@@ -633,7 +632,7 @@ public class RedisServiceImpl implements RedisService {
      * @param map 键
      * @return List<Object>
      */
-    public List<Object> pipelineMset(LinkedHashMap<String, Object> map) {
+    public List<Object> pipelineMSet(LinkedHashMap<String, Object> map) {
         Map<byte[], byte[]> maps = map.entrySet().stream().collect(Collectors.toMap(entry -> entry.getKey().getBytes(StandardCharsets.UTF_8), entry -> entry.getValue().toString().getBytes(StandardCharsets.UTF_8)));
         return redisTemplate.executePipelined((RedisCallback<Object>) connection -> {
             connection.openPipeline();
@@ -737,6 +736,8 @@ public class RedisServiceImpl implements RedisService {
 
     /**
      * 根据给定的布隆过滤器添加值
+     *
+     * @param key key
      */
     public boolean addToBloomFilter(String key) {
         return bloomFilter.put(key);
@@ -744,6 +745,8 @@ public class RedisServiceImpl implements RedisService {
 
     /**
      * 根据给定的布隆过滤器判断值是否存在
+     *
+     * @param key key
      */
     public boolean mightInBloomFilter(String key) {
         return bloomFilter.mightContain(key);
@@ -751,6 +754,8 @@ public class RedisServiceImpl implements RedisService {
 
     /**
      * guava依赖获取hash值
+     *
+     * @param key key
      */
     public static long hash(String key) {
         Charset charset = StandardCharsets.UTF_8;
